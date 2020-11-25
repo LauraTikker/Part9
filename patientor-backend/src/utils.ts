@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Gender, NewPatient } from '../data/patients';
 
@@ -19,7 +16,7 @@ export const createId = (): string => {
     return id;
 };
 
-export const toNewPatient = (object: any): NewPatient => {
+export const toNewPatient = (object: { name: any; dateOfBirth: any; ssn: any; gender: any; occupation: any; }): NewPatient => {
     const newPatient: NewPatient = {
         name: parseName(object.name),
         dateOfBirth: parseDate(object.dateOfBirth),
