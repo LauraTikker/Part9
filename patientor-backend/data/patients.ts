@@ -2,6 +2,14 @@ import { Patient } from '../src/types';
 
 export type NonSensitiveEntries = Omit<Patient, 'ssn'>;
 
+export type NewPatient = Omit<Patient, 'id'>;
+
+export enum Gender {
+    Female = 'female',
+    Male = 'male',
+    Other = 'other'
+}
+
 const patients: Array<Patient> = [
     {
         "id": "d2773336-f723-11e9-8f0b-362b9e155667",
