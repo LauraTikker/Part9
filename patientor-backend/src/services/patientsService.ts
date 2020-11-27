@@ -1,19 +1,19 @@
-import patients, { NewPatient } from '../../data/patients';
-import { NonSensitiveEntries } from '../../data/patients';
-import { Patient }  from '../types';
-import { createId } from '../utils';
+import patients from '../../data/patients';
+import { Patient, PublicPatient, NewPatient, NewEntry }  from '../types';
+import { createId, createEntryId } from '../utils';
 
 const getPatients = (): Array<Patient> => {
     return patients;
 };
 
-const getNonSensitiveInfoFromPatients = (): NonSensitiveEntries[] => {
-    return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+const getNonSensitiveInfoFromPatients = (): PublicPatient[] => {
+    return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
         id,
         name,
         dateOfBirth,
         gender,
-        occupation
+        occupation,
+        entries
     }));
 };
 
@@ -26,8 +26,29 @@ const addPatient = (entry: NewPatient): Patient => {
     return newPatientEntry;
 };
 
+const addEntryForPatient = (patientId: string, entry: NewEntry): Patient => {
+    const newEntryForPatient = {
+        id: createEntryId(),
+        ...entry
+    };
+    const patient = patients.find((patient: Patient )=> patient.id === patientId);
+    if (patient) {
+        patient.entries.push(newEntryForPatient);
+    } else {
+        throw new Error(`Patient with id ${patientId} not found`);
+    }
+ 
+    return patient;
+};
+
+const getOnePatient = (id: string): Patient | undefined => {
+    return patients.find(patient => patient.id === id);
+};
+
 export default {
     getPatients,
     getNonSensitiveInfoFromPatients,
-    addPatient
+    addPatient,
+    getOnePatient,
+    addEntryForPatient
 };
